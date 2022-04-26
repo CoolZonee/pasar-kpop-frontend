@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart as likedHeart} from "@fortawesome/free-solid-svg-icons"  
 import { faHeart as normalHeart} from "@fortawesome/free-regular-svg-icons"
 import CardDetails from '../../interfaces/CardDetailsInterface'
+import { useDispatch, useSelector } from 'react-redux'
+import { getPosts } from '../../actions/posts'
 
 type Props = {
   cardDetails: CardDetails
@@ -12,7 +14,7 @@ type Props = {
 export default function Card(props: Props) {
   const [like, setLike] = useState(props.like)
 
-  const likeCard = () => {
+  const likePost = () => {
     setLike(!like)
   }
 
@@ -42,8 +44,8 @@ export default function Card(props: Props) {
 
         </div>
         <div>
-        <p className='' style={{fontWeight: "bold"}}>{props.cardDetails.uploadedBy}</p>
-        <p className='' style={{fontSize: "13px !important" }}>{props.cardDetails.uploadDateTime}</p>
+        <p className='' style={{fontWeight: "bold"}}>{props.cardDetails.creator}</p>
+        <p className='' style={{fontSize: "13px !important" }}>{props.cardDetails.createdAt}</p>
         </div>
       </div>
       <img className='col-12 rounded my-2' style={{maxHeight: "500px"}} src={`/images/${props.cardDetails.imageName}`} alt={props.cardDetails.imageName}></img>
@@ -54,7 +56,7 @@ export default function Card(props: Props) {
             {groupList}
           </div>
           <p className=''>{props.cardDetails.category}</p>
-          <p style={{fontWeight: "bold", fontSize: "18px"}}>RM25</p>
+          <p style={{fontWeight: "bold", fontSize: "18px"}}>{props.cardDetails.price}</p>
           <p style={{fontSize:"12px", fontStyle: "italic"}}>**<span style={{fontWeight: "bold"}}>{props.cardDetails.isIncludePos ? "Include " : "Exclude "}</span>Postage</p>
         </div>
         
@@ -62,7 +64,7 @@ export default function Card(props: Props) {
         icon={like ? likedHeart : normalHeart} 
         className="me-3" 
         style={{fontSize: "22px", color: "crimson", cursor: "pointer"}}
-        onClick={() => likeCard()}/>
+        onClick={() => likePost()}/>
       </div>
       
       

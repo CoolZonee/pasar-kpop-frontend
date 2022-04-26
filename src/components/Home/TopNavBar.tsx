@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from "@fortawesome/free-solid-svg-icons"
 import { Button, Modal, Form, FloatingLabel } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux';
+import { login as loginAction } from '../../actions/loginDetails';
 
 export default function TopNavBar() {
   const [username, setUsername] = useState("");
@@ -11,6 +13,9 @@ export default function TopNavBar() {
   const [isLoginBtn, setisLoginBtn] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const dispatch = useDispatch()
+
+  const loginDetails = useSelector((state:any) => state.loginDetails)
 
   const validateCred = () => {
     if (username.trim() !== "" && password.trim() !== "") {
@@ -29,9 +34,20 @@ export default function TopNavBar() {
     setPassword(event.target.value)
   }
 
-  const login = () => {
-    setIsCred(true)
+  const handleLogin = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    dispatch(loginAction(username, password) as any)
+    console.log(loginDetails)
+    if (loginDetails.isLoggedIn == true) {
+      console.log("hi")
+    }
   }
+
+  // useEffect(() => {
+  //   console.log(isLoggedIn)
+  // }, [dispatch])
+
+  
 
   return (
     <div className="d-flex align-items-center shadow px-4 mb-4 bg-white rounded w-100" style={{height: "55px"}}>
@@ -96,7 +112,7 @@ export default function TopNavBar() {
             className='btn col-12' 
             disabled={!isLoginBtn}
             type="button"
-            onClick={() => {login()}}
+            onClick={(e) => {handleLogin(e)}}
             style={{
               backgroundColor: isLoginBtn ? "PaleVioletRed" : "pink", 
               color: "white",

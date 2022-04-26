@@ -1,16 +1,16 @@
 import React from 'react'
 
 interface CardDetails {
-    id: string,
+    _id: string,
     imageName: string,
-    category: string,
+    category: string[],
     title: string,
-    uploadedBy: string,
+    creator: string,
     avatarName: string,
-    uploadDateTime: string,
     price: string,
     isIncludePos: boolean,
     group: string[],
+    createdAt: string,
     // postage, wm, pm
 }
 
